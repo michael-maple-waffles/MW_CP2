@@ -51,26 +51,30 @@ def saving():
 
     runs = 0
     number = "VOID"
-    while stupidProof(1,number, False) is False:
+    while stupidProof(2,number, False) is False:
         if runs >= 1:
             print("make sure you are inputing a integer (a number)")
 
-        number = input("How much are you paying for each time?")
+        number = int(input("How much are you paying for each time?"))
 
     div = amount/number
     credited = {
             
      }
     
-    if payments == 1:
+    if payments == "1":
         credited["months"] = div
         credited["weeks"] = div * 4
         credited["days"] = div *4 * 7
-    elif payments == 2:
+    elif payments == "2":
         credited["months"] = div / 2
         credited["weeks"] = div * 2
         credited["days"] = div * 7 * 2
-    elif payments == 3:
+    elif payments == "3":
+        credited["months"] = div / 4
+        credited["weeks"] = div
+        credited["days"] = div * 7
+    elif payments == "4":
         credited["months"] = div / 4
         credited["weeks"] = div
         credited["days"] = div * 7

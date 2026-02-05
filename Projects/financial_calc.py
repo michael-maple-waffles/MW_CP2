@@ -1,29 +1,42 @@
 #MW_CP2 Financial Calc
 
 #Function for stupid proofing inside this there will be 2 parameters one will be 0, 1, or 2 (representing string int and float) and what the person inputed) (this will be called in every instance a person inputs something)
-def stupidProof(type, inserted, possiblities):
-    if type == 0:
-        if inserted.isAlpha():
-            return True
+def userInput(prompt = '> '):
+    return input(prompt).lower().strip()
+
+def intInput(max = 100000,prompt='> ',min = 0):
+    while True:
+        num = userInput(prompt)
+        try:
+            num = int(num)
+        except:
+            print('Input is not a number!')
+            continue
+        if num <= max and num >= min:
+            return num
         else:
-            return False
-        #string
-    elif type == 1:
-        if inserted.isDigit():
-            return True
+            print('Input is out of range!')
+
+def floatInput(max = 100000.00,prompt='> ',min = 0.00):
+    while True:
+        num = userInput(prompt)
+        try:
+            num = float(num)
+        except:
+            print('Input is not a number!')
+            continue
+        if num <= max and num >= min:
+            return num
         else:
-            return False
-        #int/float
-    elif type == 3:
-        if inserted.isDigit():
-            if int(inserted) in range(possiblities[0], possiblities[1]):
-                return True
-            else:
-                return False
+            print('Input is out of range!')
+
+def choiceInput(choices,prompt = '> '):
+    while True:
+        choice = userInput(prompt)
+        if choice in choices:
+            return choice
         else:
-            return False
-    else:
-        return False
+            print('Please select a valid choice!')
 
 #function for finding a percentage this will have 2 parameteers the larger number (a float) and the percentage (an int) (this will allow for ease in compund interest, sales price, and tip calc)
 def findPercent(total, peice):
@@ -81,6 +94,14 @@ def saving():
 
 #function for compound interest
     #this function will gt the users information of how much there payment was and what the interest was, it will then call the finding percent function
+def compoundInterest():
+    loan = floatInput(max = 1000000000000000000000000.00, prompt = "How much did you pay on this loan?", min = 0.00)
+    percent_increase = floatInput(max = 1000.00, prompt = "Hwhat is the interest on this loan?", min = 0.00)
+
+    growth = findPercent(loan, percent_increase)
+
+    increased_percentage = loan + growth
+    return increased_percentage
 
 #function for budget allocator
     #this function will ask the user what there larger money portion is, how many goals there are and fill a dictionary.

@@ -10,12 +10,12 @@ def intInput(max = 100000,prompt='> ',min = 0):
         try:
             num = int(num)
         except:
-            print('Input is not a number!')
+            print('\nInput is not a number!')
             continue
         if num <= max and num >= min:
             return num
         else:
-            print('Input is out of range!')
+            print('\nInput is out of range!')
 
 def floatInput(max = 100000.00,prompt='> ',min = 0.00):
     while True:
@@ -23,12 +23,12 @@ def floatInput(max = 100000.00,prompt='> ',min = 0.00):
         try:
             num = float(num)
         except:
-            print('Input is not a number!')
+            print('\nInput is not a number!')
             continue
         if num <= max and num >= min:
             return num
         else:
-            print('Input is out of range!')
+            print('\nInput is out of range!')
 
 def choiceInput(choices,prompt = '> '):
     while True:
@@ -36,7 +36,7 @@ def choiceInput(choices,prompt = '> '):
         if choice in choices:
             return choice
         else:
-            print('Please select a valid choice!')
+            print('\nPlease select a valid choice!')
 
 #function for finding a percentage this will have 2 parameteers the larger number (a float) and the percentage (an int) (this will allow for ease in compund interest, sales price, and tip calc)
 def findPercent(total, peice):
@@ -46,74 +46,109 @@ def findPercent(total, peice):
 #function for save for a goal
     #inside this function ask the user to input the goal ammount, how much they are putting in every time, and if its weekly or monthly.
 def saving():
-    runs = 0
-    amount = "VOID"
-
-    while stupidProof(1,amount, False) is False:
-        if runs >= 1:
-            print("make sure you are inputing a float number include the '.00'")
-        amount = input("What is your goal amount?")
-
-    runs = 0
-    payments = "VOID"
-    while stupidProof(2 ,payments, (1,5)) is False:
-        if runs >= 1:
-            print("make sure you are inputing a integer (a number)")
-
-        payments = input("press 1 if you are making payments monthly, press 2 if you are making payments bi-weekly, press 3 if you are making payments weekly, press 4 if you are making payments every other day, and press 5 if you are making payments daily.")
-
-    runs = 0
-    number = "VOID"
-    while stupidProof(2,number, False) is False:
-        if runs >= 1:
-            print("make sure you are inputing a integer (a number)")
-
-        number = int(input("How much are you paying for each time?"))
-
-    div = amount/number
-    credited = {
-            
-     }
+    goal = intInput(max = 1000000000000, prompt = "\nHow much money is the goal that you are saving for? ")
+    often = intInput(prompt = "\nHow often in days are you paying (IE weekly would be 7)? ")
+    amount_payed = intInput(max = goal, prompt = f"\nHow much are you paying every {often} days? ")
     
-    if payments == "1":
-        credited["months"] = div
-        credited["weeks"] = div * 4
-        credited["days"] = div *4 * 7
-    elif payments == "2":
-        credited["months"] = div / 2
-        credited["weeks"] = div * 2
-        credited["days"] = div * 7 * 2
-    elif payments == "3":
-        credited["months"] = div / 4
-        credited["weeks"] = div
-        credited["days"] = div * 7
-    elif payments == "4":
-        credited["months"] = div / 4
-        credited["weeks"] = div
-        credited["days"] = div * 7
+    div_goal = round(goal / amount_payed)
+
+    time_to_pay = div_goal * often
+
+    return [time_to_pay, goal]
 
 #function for compound interest
     #this function will gt the users information of how much there payment was and what the interest was, it will then call the finding percent function
 def compoundInterest():
-    loan = floatInput(max = 1000000000000000000000000.00, prompt = "How much did you pay on this loan?", min = 0.00)
-    percent_increase = floatInput(max = 1000.00, prompt = "Hwhat is the interest on this loan?", min = 0.00)
+    def compounding(start, times_compounded, percent_change):
+        for i in range(times_compounded):
+            start += findPercent(start, percent_change)
+        
+        return start
 
-    growth = findPercent(loan, percent_increase)
+    starting = floatInput(max = 100000000000000000000000000000000000.00, prompt = "\nHow much did your money/payment start at? ")
+    percent = floatInput(max = 1000.00, prompt = "\nWhat is the percent growth of this payment? (this is a percentage this number will be divided by 100) ", min = 0.00)
 
-    increased_percentage = loan + growth
-    return increased_percentage
+    time = intInput(max = 100000000000000000, prompt = "\nHow many times has this Compounded?")
+
+    compounded = compounding(starting, time, percent)
+
+    return [compounded, time]
+
+#sales price and tip calc
+def percentChange(total_prompt, peice_prompt, peice_max, value):
+    total = floatInput(max = 1000000000000000000000000.00, prompt = total_prompt, min = 0.00)
+    peice = floatInput(max = peice_max, prompt = peice_prompt, min = 0.00)
+
+    change = findPercent(total, peice)
+    if value == 0:
+        changed = total - change
+    elif value == 1:
+        changed = total + change
+    return [changed, change]
 
 #function for budget allocator
     #this function will ask the user what there larger money portion is, how many goals there are and fill a dictionary.
-
+def budget_allocator():
     #inner function for turning a percentage into a number
         #this will be used to turn the percent the person inputed into a number using the larger number they gave.
+        
 
-#function for sales price
-    #this function will ask for the item, and its sale, then it will call the finding percent function and subract from the larger portion
+    total = floatInput(max = 1000000000000000000.00, prompt = "\nWhat is your total budget income?", min = 1.00)
 
-#function for tip calc
-    #same thing as the last function, but it will insted add to it.
+    items_percents = {
+
+    }
+    percent_left = 100.00
+    while True:
+        choice = choiceInput(choices = ['1','2'], prompt = "\nPress '1' if you have an item that needs to be budgeted\nPress '2' if you are done\ninput here: ")
+        if choice == '2':
+            break
+        elif choice == '1':
+            item = input("\nWhat is the name of this item (example: rent)? ").strip().title()
+            if item in items_percents.keys():
+                print("\nYou have already used this name before!")
+            elif percent_left == 0.00:
+                print("You have no percent left.")
+                break
+            else:
+                items_percents[item] = floatInput(max = percent_left, prompt = f"\nWhat percentage of your budget are you allocating to this?--NOTE you only have {percent_left} the number you input cant be greater than this number--(make this a integer bellow one hundred and above 0 IE: 23, or 10) ")
+                percent_left -= items_percents[item]
+
+    items_changed = {
+
+    }
+
+    for i in items_percents.keys():
+        items_changed[i] = findPercent(total, items_percents[i])
+
+    print("\n")
+
+    for i in items_changed.keys():
+        print(f"{i} : {items_changed[i]}$")
+        
 
 #Function to run everything
     #call everything, let them leave, let them navigate.
+def mainMenu():
+    while True:
+        choice = choiceInput(choices = ["1","2","3","4","5","6"], prompt = "\nPress 1 if you would like to use the savings time calculator\nPress 2 if you would like to use the compound interest calculator\nPress 3 if you would like to use the budget allocator\nPress 4 if you would like to use the sales calculator\nPress 5 if you would like to use the tip calculator\nPress 6 if you would like to leave\nInput here: ")
+        if choice == '6':
+            break
+        elif choice == '1':
+            time = saving()
+            print(f"\nIt will take you {time[0]} days to pay {time[1]}$\n")
+        elif choice == '2':
+            compounded = compoundInterest()
+            print(f"\nAfter your item has compounded {compounded[1]} times it will be {compounded[0]}$")
+        elif choice == '3':
+            budget_allocator()
+        elif choice == '4':
+            changed = percentChange("\nWhat is the orginal price of the item? ", "What is it on sale for(this is a percentage and will be divided by 0 please make sure your number is bellow 100) ", 100, 0)
+            print(f"Your Item now costs {changed[0]}$")
+        elif choice == '5':
+            changed = percentChange("\nHow much were you orginally paying? ", "What is your tip?(this is a percentage and will be divided by 0 please make sure your number is bellow 100) ", 100, 1)
+            print(f"\nYour tip ammount is {changed[1]}$, your total is now {changed[0]}$")
+        else:
+            print("\nhow did you get here?")
+
+mainMenu()

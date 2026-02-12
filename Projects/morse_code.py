@@ -18,10 +18,12 @@ def translate(mode, statement, english, morse):
         return translation
     
     elif mode == 2:
+        translation = ''
         current_set = ''
         for character in statement:
             if character == ' ':
-                index = morse.index[current]
+                index = morse.index[current_set]
+
 
 
 

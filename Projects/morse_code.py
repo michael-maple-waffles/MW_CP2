@@ -23,6 +23,7 @@ def translate(mode, statement, english, morse):
         for character in statement:
             if character == ' ':
                 index = morse.index[current_set]
+                transl
 
 
 

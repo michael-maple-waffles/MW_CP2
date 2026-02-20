@@ -42,15 +42,20 @@ def choiceInput(choices,prompt = '> '):
             print('\nPlease select a valid choice!')
 
 #function that loops through the list to print every book and its author neatly
-def showLibrary(library):
+def showLibrary():
     try:
-        with open("Projects\\Update Personal Library\\library.csv", mode = 'r') as library:
+        with open("Projects/Update Personal Library/library.csv", mode = 'r') as library:
             reader = csv.reader(library)
-            header = next(reader)
 
             items = []
-            items[0] = header
-            for line in reader
+            for line in reader:
+                items.append(f"{line[0]}|\t{line[1]}|\t{line[2]}|\t{line[3]}")
+    except:
+        print("file does not exist")
+    else:
+        for item in items:
+            print(item)
+
 
 #A function that allows you to add a book, this will be don by first asking the title of the book, and then asking for the author, the function will then return (book, author) as a tuple!
 def addBook(library):
@@ -59,41 +64,50 @@ def addBook(library):
         return (title,author)
             
 #A function to search for a book: they will be given choice to search by author or book name: this will use the 'in' feature to check if the name of the author is in the string--or the name of the book if the user so picked to check  by name of book instead of author.
-def searchForBook(library):
+def searchForBook(by):
+    if by == 'title':
+        mode = 0
+    elif by == 'author':
+        mode = 1
+    elif by == 'year':
+        mode = 2
+    elif by == 'genre':
+        mode = 3
 
-    def searching(library, by):
-        done = ''
-        if by == 'title':
-            mode = 0
-        elif by == 'author':
-            mode = 1
-        while True:
-            options = 0
-            search = input(f"\nYou are currently searching by {by}:\n    Search Here: ")
+    def  searching(mode):
+        try:
+            with open("Projects/Update Personal Library/library.csv", mode = 'r') as library:
+                reader = csv.reader(library)
+                header = next(reader)
+                possible_books = []
+                base = []
+                for line in reader:
+                    possible_books.append(line)
+                    base.append(line[by])
+        except:
+            print("this file does not exist")
+        else:
+            book_options = [possible_books, base]
+            return book_options
+    
+    books = searching(mode)
 
-            for book in library:
-                if search.lower() in book[mode].lower():
-                    print(f"Book: {book[0]} | By: {book[1]}")
-                    options += 1
+    matches = []
+    
+    print(f"\nYou are currently searching by {by}")
+    search = input("Input your search here: ").strip().lower()
+    for book in books[1]:
+        if search in book:
+            index = book.index(books[1])
+            matches.append(books[0][index])
+        else:
+            pass
+    
+    if matches != []:
+        return
+    
 
-                else: 
-                    pass
-            
-            if options == 0:
-                print(f"\nYou have no books with that set of words for its {by}\n")
 
-            done = choiceInput(['y', 'n'], "\nWould you like to try searching again? (press 'y' if so, and 'n' if not so): ")
-            if done == 'y' or '':
-                pass
-            elif done == 'n':
-                break
-
-    searching_by = choiceInput(['1', '2'], "\nPress '1' if you are seaching by title of book\n Press '2' if you are searching by author of book\nInput here: ")
-
-    if searching_by == '1':
-        searching(library, 'title')
-    elif searching_by == '2':
-        searching(library, 'author')
 
 #A function to let them remove a book: we will try by searching and inputting the name... if it proves to difficult we will do it by listing all books as choices and letting the user pick one by number.
 def removeBook(library):
@@ -142,4 +156,4 @@ def mainMenu(library):
             else:
                 print("\nYou do not currently have any books to search.\n")
 
-mainMenu(library)
+showLibrary()

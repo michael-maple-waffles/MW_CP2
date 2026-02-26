@@ -61,9 +61,11 @@ def showLibrary():
 def addBook(library):
         title = input("\nWhat is the Title of your new book? ").title().strip()
         author = input("\nWho is the author of this book? ").title().strip()
-        return (title,author)
+        
+        title,author
             
 #A function to search for a book: they will be given choice to search by author or book name: this will use the 'in' feature to check if the name of the author is in the string--or the name of the book if the user so picked to check  by name of book instead of author.
+
 def searchForBook(by):
     if by == 'title':
         mode = 0
@@ -83,7 +85,7 @@ def searchForBook(by):
                 base = []
                 for line in reader:
                     possible_books.append(line)
-                    base.append(line[by])
+                    base.append(line[mode])
         except:
             print("this file does not exist")
         else:
@@ -93,18 +95,31 @@ def searchForBook(by):
     books = searching(mode)
 
     matches = []
-    
-    print(f"\nYou are currently searching by {by}")
-    search = input("Input your search here: ").strip().lower()
-    for book in books[1]:
-        if search in book:
-            index = book.index(books[1])
-            matches.append(books[0][index])
+    while True:
+        print(f"\nYou are currently searching by {by}")
+        search = input("Input your search here: ").strip().lower()
+        for book in books[1]:
+            if search in book:
+                index = book.index(books[1])
+                matches.append(books[0][index])
+            else:
+                pass
+
+        if matches != []:
+        
+            for i in matches:
+                print(f"title: {i[0]} creator: {i[1]} year: {i[2]} genre: {i[3]}")
+        else:
+            print("There are no matches")
+
+        choice = choiceInput(['y', 'n'], f"Would you like to search by {by} again? [press 'y' for yes, and press 'n' for no]\nInput Here:")
+
+        if choice == 'n':
+            break
         else:
             pass
-    
-    if matches != []:
-        return
+        
+        
     
 
 

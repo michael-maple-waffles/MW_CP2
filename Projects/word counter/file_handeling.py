@@ -37,6 +37,8 @@ def choiceInput(choices,prompt = '> '):
         else:
             print('\nPlease select a valid choice!')
 
+
+
 def readFile(file = "Projects\\word counter\\file.txt"):
     try:
         with open(file, mode = 'r') as file:
@@ -56,20 +58,12 @@ def countingWords(read_file):
     
     return(character_count, word_count)
 
-def createFile():
-    text = input("Type or copy your file here: ")
-    filename = f'input("type the name of your file here")'
-    try:
-        with open(filename, mode = 'w') as file:
-            file.write(text)
-    except:
-        print(f"\n file does not exist\n")
-    else:
-        print("you can now veiw this file's word and character count!")
 
-def appendFile():
-    filepath = input("Please input the direct file path: ")
-    try 
+def appendFile(file):
+    try:
+        with open(file, 'a') as untouched_file:
+            untouched_file = 
+
 
 
 

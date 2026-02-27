@@ -61,8 +61,18 @@ def countingWords(read_file):
 
 def appendFile(file):
     try:
-        with open(file, 'a') as untouched_file:
-            untouched_file = 
+        with open(file, 'r') as untouched_file:
+            new_information = f"{untouched_file}{input("what is the new information you would like to add to the file?")}"
+    except:
+        print("file doesn't exist")
+    else:
+        try:
+            with open(file, 'w') as changing_file:
+                file.write(new_information)
+        except:
+            print("how did you get here?")
+        else:
+            
 
 
 

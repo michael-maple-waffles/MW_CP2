@@ -1,4 +1,5 @@
-#MW_CP2 word counter program
+#MW_CP2 file handeling --> word counter
+import csv
 
 def userInput(prompt = '> '):
     return input(prompt).lower().strip()
@@ -39,41 +40,28 @@ def choiceInput(choices,prompt = '> '):
 
 
 
-def readFile(file = "Projects\\word counter\\file.txt"):
+def readFile(file = "/workspaces/MW_CP2/Projects/word counter/file.txt"):
     try:
-        with open(file, mode = 'r') as file:
-            content = f"{file}"
+        with open(file, mode = 'r') as reading_file:
+            content = f"{reading_file.read()}"
     except:
         print(f"\n file does not exist\n")
     else:
         return content
     
-def countingWords(read_file):
-    character_count = 0
-    word_count = 0
-    for character in read_file:
-        character_count += 1
-        if character == ' ' or '\n':
-            word_count += 1
-    
-    return(character_count, word_count)
 
 
-def appendFile(file):
+
+def appendFile(file = "/workspaces/MW_CP2/Projects/word counter/file.txt"):
     try:
-        with open(file, 'r') as untouched_file:
-            new_information = f"{untouched_file}{input("what is the new information you would like to add to the file?")}"
+        with open(file, 'a') as untouched_file:
+            new_information = f'\n{input("what is the new information you would like to add to the file?\n(Insert Here): ")}'
+            untouched_file.write(new_information)
     except:
         print("file doesn't exist")
     else:
-        try:
-            with open(file, 'w') as changing_file:
-                file.write(new_information)
-        except:
-            print("how did you get here?")
-        else:
-            
-
+        print("File has been updated.")
+        file
 
 
 

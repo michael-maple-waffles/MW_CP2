@@ -1,2 +1,0 @@
-<_io.TextIOWrapper name='Projects\\word counter\\file.txt' mode='a' encoding='UTF-8'>
-cats are cute, and sharp, and stinky pinky.cats are very cute!WHY WONT IT WORK

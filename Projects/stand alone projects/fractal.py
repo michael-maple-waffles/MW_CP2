@@ -3,18 +3,19 @@
 #import turtle
 import turtle
 import math
-
+triangle = turtle.Turtle()
+triangle.hideturtle()
+triangle.speed(0)
+screen = turtle.Screen()
 #make a triangle function:
 def makeTriangle(position_x, position_y, distance, direction):
     #args will be distance of legs, where to place of the first leg, and if the triangle is upsidedown or rightside up
-
+    
     #triangle = Turtle.turtle()
-    triangle = turtle.Turtle()
-    triangle.hideturtle()
     triangle.penup()
     #triangle.setpos()
     triangle.setpos(position_x, position_y)
-    triangle.pendown
+    triangle.pendown()
     #if triangle = 'ru':
     if direction == 'ru':
         #triangle.seth(0)
@@ -24,7 +25,7 @@ def makeTriangle(position_x, position_y, distance, direction):
         #for i in range 1-2:
         for i in range(1,3):
             #triangle.left(120)
-            triangle.left(120)
+            triangle.seth(120*i)
             #triangle.forward(distance)
             triangle.forward(distance)
     elif direction == 'ud':
@@ -65,23 +66,22 @@ def getTriangle(side,x_cord,y_cord,dist):
 def fractalMaker(times, x_cord, y_cord, distance):
 
     makeTriangle(x_cord, y_cord, distance, 'ud')
+    if times == 0:
+        return  times
+    elif times > 0:
+        while times > 0:
+            fractalMaker(times = times-1, x_cord = getTriangle('L', x_cord, y_cord, distance)[0], y_cord=getTriangle('L', x_cord, y_cord, distance)[1], distance = getTriangle('L', x_cord, y_cord, distance)[2])
 
-    while times > 0:
-        fractalMaker(times = times-1, x_cord = getTriangle('L', x_cord, y_cord, distance)[0], y_cord=getTriangle('L', x_cord, y_cord, distance)[1], distance = getTriangle('L', x_cord, y_cord, distance)[2])
+            #fractalMaker(times = times-1, x_cord = getTriangle('R', x_cord, y_cord, distance)[0], y_cord=getTriangle('R', x_cord, y_cord, distance)[1], distance = getTriangle('R', x_cord, y_cord, distance)[2])
 
-        fractalMaker(times = times-1, x_cord = getTriangle('R', x_cord, y_cord, distance)[0], y_cord=getTriangle('R', x_cord, y_cord, distance)[1], distance = getTriangle('R', x_cord, y_cord, distance)[2])
+            #fractalMaker(times = times-1, x_cord = getTriangle('T', x_cord, y_cord, distance)[0], y_cord=getTriangle('T', x_cord, y_cord, distance)[1], distance = getTriangle('T', x_cord, y_cord, distance)[2])
 
-        fractalMaker(times = times-1, x_cord = getTriangle('T', x_cord, y_cord, distance)[0], y_cord=getTriangle('T', x_cord, y_cord, distance)[1], distance = getTriangle('T', x_cord, y_cord, distance)[2])
+makeTriangle(0,0,500,'ru')
 
-def start():
-    length = int(input("How long is the length of one the first trianlge's sides?\n(Input Here): "))
-    iterations = int(input("To what degree would you like your fractal?\n(Input Here): "))
-    
-    makeTriangle(position_x=0, position_y=0, distance=length, direction='ru')
+fractalMaker(5,250,0,250)
 
-    fractalMaker(times = iterations, x_cord = length/2, y_cord = 0, distance = length/2)
-
-        
-
+#fractalMaker(5,500,0,500)
 
         
+screen.exitonclick()
+

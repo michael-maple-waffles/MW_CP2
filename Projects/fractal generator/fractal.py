@@ -3,10 +3,7 @@
 #import turtle
 import turtle
 import math
-triangle = turtle.Turtle()
-triangle.hideturtle()
-triangle.speed(0)
-screen = turtle.Screen()
+
 #make a triangle function:
 def makeTriangle(position_x, position_y, distance, color, direction):
     #args will be distance of legs, where to place of the first leg, and if the triangle is upsidedown or rightside up
@@ -81,12 +78,5 @@ def fractalMaker(times, x_cord, y_cord, distance):
 
         fractalMaker(times = times-1, x_cord = getTriangle('T', x_cord, y_cord, distance)[0], y_cord=getTriangle('T', x_cord, y_cord, distance)[1], distance = getTriangle('T', x_cord, y_cord, distance)[2])
 
-makeTriangle(0,0,500,'ru')
 
-fractalMaker(5,250,0,250)
-
-fractalMaker(5,500,0,500)
-
-        
-screen.exitonclick()
 

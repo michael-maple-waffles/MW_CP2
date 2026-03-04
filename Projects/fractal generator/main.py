@@ -1,6 +1,8 @@
 #MW_CP2 fractal generator.main
 
-from fractal import makeTriangle, fractalMaker
+from fractal import main
+
+main()
 
 
     

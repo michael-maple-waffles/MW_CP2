@@ -7,7 +7,6 @@ triangle = turtle.Turtle()
 triangle.hideturtle()
 triangle.speed(0)
 screen = turtle.Screen()
-
 #make a triangle function:
 def makeTriangle(position_x, position_y, distance, color, direction):
     #args will be distance of legs, where to place of the first leg, and if the triangle is upsidedown or rightside up
@@ -21,7 +20,7 @@ def makeTriangle(position_x, position_y, distance, color, direction):
     #if triangle = 'ru':
     if direction == 'ru':
         triangle.begin_fill()
-        #triangle.seth(0)S
+        #triangle.seth(0)
         triangle.seth(0)
         #triangl.forward(distance)
         triangle.forward(distance)
@@ -35,7 +34,7 @@ def makeTriangle(position_x, position_y, distance, color, direction):
     elif direction == 'ud':
         rounds = 0
         triangle.begin_fill()
-        while rounds > 3:
+        while rounds < 3:
             rounds += 1
             triangle.seth(60+120*rounds-1)
             triangle.forward(distance)
@@ -85,15 +84,8 @@ def fractalMaker(times, x_cord, y_cord, distance):
 def main():
     
     makeTriangle(0,0,500,'white','ru')
-    fractalMaker(5,250,0,250)
+    fractalMaker(2,250,0,250)
 
-rounds = 0
-triangle.begin_fill()
-while rounds > 3:
-    rounds += 1
-    triangle.seth(60+120*rounds-1)
-    triangle.forward(250)
-triangle.end_fill()
-#triangle.forward(distance)
+main()
 screen.exitonclick()
 

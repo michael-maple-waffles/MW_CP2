@@ -35,11 +35,29 @@ class Character:
 
         
         if start_level > 1:
-            get_modifier = 0
+            get_level_modifier = 0
             for level in range(0,start_level-1):
-                get_modifier += 1
+                get_level_modifier += 1
 
-        self.health = self.characters_class.mainStat('health') + (lambda self.characters_class.statBoost('health')
+            self.health = self.characters_class.mainStat('health') + sum(list(map(lambda _: self.characters_class.statBoost('health'), range(get_level_modifier))))
+            self.defense = self.characters_class.mainStat('defense') + sum(list(map(lambda _: self.characters_class.statBoost('defense'), range(get_level_modifier))))
+            self.damage = self.characters_class.mainStat('damage') + sum(list(map(lambda _: self.characters_class.statBoost('damage'), range(get_level_modifier))))
+
+            self.level = start_level
+
+        elif start_level == 1:
+            self.health = self.characters_class.mainStat('health')
+            self.defense = self.characters_class.mainStat('defense')
+            self.damage = self.characters_class.mainStat('damage')
+
+            self.level = start_level
+
+        else:
+            print("impossible.")
+            self.health = self.characters_class.mainStat('health')
+            self.defense = self.characters_class.mainStat('defense')
+            self.damage = self.characters_class.mainStat('damage')
+            self.level = start_level
 #function called take damage (self, amount)
     #take in an ammount then subtract that by the self.defense
     #then subract self.health by the new ammount

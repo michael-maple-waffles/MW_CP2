@@ -41,10 +41,10 @@ def choiceInput(choices,prompt = '> '):
             print('\nPlease select a valid choice!')
 
 class Pet:
-    def __init__(self, name, animal, age, health=100, happiness=50, hunger=100, level=0, energy=100):
+    def __init__(self, name, species, age, health=100, happiness=50, hunger=100, level=0, energy=100):
         #declair self
         self.name = name
-        self.animal = animal
+        self.species = species
         self.age = age
         self.health = health
         self.happiness = happiness
@@ -103,7 +103,7 @@ class Pet:
 
     #function to display stats:
     def showStats(self):
-        return f"{self.name} | Happiness is currently {self.happiness}/100 | Hunger is currently {self.hunger}/100 | Energy is currently {self.energy}"
+        return f"{self.name} | Happiness is currently {self.happiness}/100 | Hunger is currently {self.hunger}/100 | Energy is currently {self.energy}/100"
     
     #function for play:
     def play(self):
@@ -118,7 +118,7 @@ class Pet:
         self.happiness += 20
         self.energy -= 30
         self.happinessTracker()
-        if self.energy > 20:
+        if self.energy < 20:
             print("\n your pet is over worked!")
             self.happinessTracker(reason = "over worked")
         elif self.energy <= 50:
@@ -127,6 +127,12 @@ class Pet:
         if self.energy < 0:
             self. energy = 0
 
+        self.hunger -= 10
+        if self.hunger >100:
+            self.hunger = 100
+        elif self.hunger < 0:
+            self.hunger = 0
+
         self.happinessTracker("NULL")
         
         
@@ -134,10 +140,20 @@ class Pet:
     #function to put pet to sleep
     def sleep(self):
         self.energy += 100
+        if self.energy >100:
+            self.energy = 100
+        elif self.energy < 0:
+            self.energy = 0
+
+        self.hunger -= 10
+        if self.hunger >100:
+            self.hunger = 100
+        elif self.hunger < 0:
+            self.hunger = 0
 
     #function to feed pet
     def feed(self):
-        choice = choiceInput(['1','2','3'], '\nPress 1 if you would like to give your pet Normal Chow (easy to eat good fuel), Press 2 if you would like to give your pet Hungy Chow (refills hunger greatly, is exhuasting to eat), Press 3 if you would like to give your pet Speed Chow (easy to eat, not filing)')
+        choice = choiceInput(['1','2','3'], '\nPress 1 if you would like to give your pet Normal Chow (easy to eat good fuel)\nPress 2 if you would like to give your pet Hungy Chow (refills hunger greatly, is exhuasting to eat)\nPress 3 if you would like to give your pet Speed Chow (easy to eat, not filing)')
         if choice == '1':
             self.hunger += 50
             self.energy -= 20

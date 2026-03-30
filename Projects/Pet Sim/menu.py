@@ -94,7 +94,7 @@ def loadPets():
     #for item in data:
     for item in data:
     #sendabledata[[currentpet]['Name']] = Pet(data[currentpet]['Name'], data[currentpet]['Species'], data[currentpet]['Age'],data[currentpet]['Health'],data[currentpet]['Happiness'],data[currentpet]['Hunger'],data[currentpet]['Energy'],data[currentpet]['Sleeping'])
-        sendable_data[data[current_pet]['Name']] = Pet(data[current_pet]['Name'],data[current_pet]['Species'],data[current_pet]['Age'],data[current_pet]['Health'],data[current_pet]['Happiness'],data[current_pet]['Hunger'],data[current_pet]['Energy'])
+        sendable_data[data[current_pet]['Name']] = Pet(data[current_pet]['Name'],data[current_pet]['Species'],int(data[current_pet]['Age']),int(data[current_pet]['Health']),int(data[current_pet]['Happiness']),int(data[current_pet]['Hunger']),int(data[current_pet]['Energy']))
     #currentpet +=1
         current_pet += 1
     #return()
@@ -102,24 +102,52 @@ def loadPets():
 
 #function called run:
 def run():
+    time = 0
+    exp = 0
     current_pets = {}
     current_pet = ""
 #while True
     while True:
 #if user has a curent pet:
-        if current_pet == True:
+        if bool(current_pet) == True:
     #ask user if they would like to play with the pet, feed the pet, veiw the pets stats, put the pet to sleep, check pets status, manage pets, save game, or quit
-            choice = choiceInput(['1','2','3','4','5','6','7','8'], "\nYou currently have a pet selected!\nPress 1 to feed pet\n Press 2 to play with pet\n Press 3 to let pet sleep\n Press 4 to veiw pets stats\n Press 5 manage pets\n Press 6 to load game (will delete any unsaved progress)\n Press 7 to save game (will delete any unloaded data), or Press 8 to quite: : ")
+            choice = choiceInput(['1','2','3','4','5','6','7','8'], f"\nYou currently have {current_pet} selected!\n Press 1 to feed pet\n Press 2 to play with pet\n Press 3 to let pet sleep\n Press 4 to veiw pets stats\n Press 5 manage pets\n Press 6 to load game (will delete any unsaved progress)\n Press 7 to save game (will delete any unloaded data), or Press 8 to quite: : ")
             if choice =='1':
                 current_pets[current_pet].feed()
+                time += 1
             elif choice == '2':
                 current_pets[current_pet].play()
+                time += 1
+                exp += 1
             elif choice == '3':
                 current_pets[current_pet].sleep()
+                time += 1
             elif choice == '4':
-                current_pets[current_pet].veiwPet()
+                print(current_pets[current_pet].showStats())
             elif choice == '5':
-                pass
+                choice = choiceInput(['1','2','3'], "\nPress 1 to make a new pet\nPress 2 to select a different pet\nPress 3 to release pet\nPress 4 to exit: ")
+                if choice == '1':
+                    new_pet = createPet(current_pets.keys())
+                    current_pets[new_pet[0]] = new_pet[1]
+                elif choice == '2':
+                    while True:
+                        print("\nPlease type the exact name of one of these pets")
+                        for pet in current_pets:
+                            print(pet)
+                        
+                        pet_input = input("\nEnter Here: ").strip().title()
+                        if pet_input in current_pets:
+                            current_pet = pet_input
+                            break
+                        else:
+                            print("\nThat is a invalid input")
+                            leave = choiceInput(['1','2'], 'Press 1 if you would like to try again\nPress 2 if you would like to exit: ')
+                            if leave == '1':
+                                pass
+                            elif leave == '2':
+                                break
+                            else:
+                                print("error code 1")
             elif choice == '6':
                 current_pets = loadPets()
                 if current_pet not in current_pets.keys():
@@ -128,25 +156,50 @@ def run():
                 save_pet(new_data=current_pets)
             elif choice == '8':
                 break
+
+            if current_pets[current_pet].health == 0 and current_pet != '':
+                print("\n Your pet has died!!!")
+                current_pets.pop(current_pet)
+                current_pet = ''
+
+            if time % 4 == 0 and time != 0 and current_pet != '':
+                print("\n your pet has aged up!")
+                current_pets[current_pet].age += 1
+
+            if exp == 4 and current_pet != '':
+                print("\nYour pet has leveled up!")
+                current_pets[current_pet].level += 1
+
+
+
 #elif user currently has a pet in pet library:
-        elif current_pet == False and bool(current_pets) == True:
-            choice = choiceInput(['1','2','3','4','5','6'], "\nYou currently don't have a pet selected!\nPress 1 to make a new pet\n Press 2 veiw all currently made pets\n Press 3 to select a pet\n Press 4 to load the current save file (will delete anyn currently unsaved pets)\n Press 5 to save your currently made pets\n or Press 6 to quite: ")
+        elif bool(current_pet) == False and bool(current_pets) == True:
+            choice = choiceInput(['1','2','3','4','5','6'], "\nYou currently don't have a pet selected!\n Press 1 to make a new pet\n Press 2 veiw all currently made pets\n Press 3 to select a pet\n Press 4 to load the current save file (will delete any currently unsaved pets)\n Press 5 to save your currently made pets\n or Press 6 to quite: ")
             if choice == '1':
-                new_pet = createPet(current_pets.keys)
-                current_pets[new_pet[0]] = new_pet[1]
+                    new_pet = createPet(current_pets.keys())
+                    current_pets[new_pet[0]] = new_pet[1]
             elif choice == '2':
-                for pet in current_pets.keys():
-                    print(current_pets[pet])
+                for pet in current_pets:
+                    print(pet)
             elif choice == '3':
-                while True:
-                    print("\nPlease type the name of one of these pets EXACTLY as written to select one")
-                    for pet in current_pets.keys():
-                        print(current_pets[pet])
-                    pet_pick = input('\nEnter Here: ')
-                    if pet_pick in current_pets.keys():
-                        current_pet = pet_pick
-                    else:
-                        print("Invalid name")
+                    while True:
+                        print("\nPlease type the exact name of one of these pets")
+                        for pet in current_pets:
+                            print(pet)
+                        
+                        pet_input = input("\nEnter Here: ").strip().title()
+                        if pet_input in current_pets:
+                            current_pet = pet_input
+                            break
+                        else:
+                            print("\nThat is a invalid input")
+                            leave = choiceInput(['1','2'], 'Press 1 if you would like to try again\nPress 2 if you would like to exit: ')
+                            if leave == '1':
+                                pass
+                            elif leave == '2':
+                                break
+                            else:
+                                print("error code 1")
             elif choice == '4':
                 current_pets = loadPets()
             elif choice == '5':
@@ -165,10 +218,11 @@ def run():
 #else:
         else:
     #ask the user if they would like to load game, make a new pet (overwriting save data), or quite
-            choice = choiceInput(['1','2','3'], "Hello!\nwelcome to the pet simulator!\nPress 1 to make a new pet\n Press 2 to load the current save file\n or Press 3 to close out: ")
+            choice = choiceInput(['1','2','3'], "Hello!\nwelcome to the pet simulator!\nPress 1 to make a new pet\nPress 2 to load the current save file\nor Press 3 to close out: ")
             if choice == '1':
                 new_pet = createPet(current_pets)
                 current_pets[new_pet[0]] = new_pet[1]
+                current_pet = new_pet[0]
             elif choice == '2':
                 current_pets = loadPets()
             elif choice == '3':

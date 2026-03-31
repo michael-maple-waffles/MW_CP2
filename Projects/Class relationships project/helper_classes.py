@@ -142,10 +142,13 @@ class Game:
                 attendy_2_health += self.characters[attendy_1].characters_class.combat()
                 print(f"{attendy_1} attacked {attendy_2}, {attendy_2} now only has {attendy_2_health}")
                 if attendy_2_health <= 0:
+                    print(f"{attendy_1} has won")
                     break
                 else:
                     attendy_1_health += self.characters[attendy_2].characters_class.combat()
                     print(f"{attendy_2} attacked {attendy_1}, {attendy_1} now only has {attendy_1_health}")
+                    if attendy_1_health <= 0:
+                        print(f"{attendy_2} has won!")
 
 
 
@@ -179,17 +182,20 @@ class Character:
         elif start_level == 1:
             self.health = self.characters_class.mainStat('health')
             self.defense = self.characters_class.mainStat('defense')
-            self.damage = self.characters_class.mainStat('damage')
+            damage = self.characters_class.mainStat('damage')
+            self.damage = damage
+            
             self.characters_class.dmg = damage
             self.characters_class.set_abilities()
-            
+
             self.level = start_level
 
         else:
             print("impossible.")
             self.health = self.characters_class.mainStat('health')
             self.defense = self.characters_class.mainStat('defense')
-            self.damage = self.characters_class.mainStat('damage')
+            damage = self.characters_class.mainStat('damage')
+            self.damage = damage
             self.characters_class.dmg = damage
             self.characters_class.set_abilities()
             self.level = 1
@@ -230,7 +236,7 @@ class CharacterClass:
         self.level = level
         self.dmg = dmg
         self.modifiers = {'sorcerer' : {'damage' : ((6,20), (1,8)), 'defense' : ((1,10), (1,4)), 'health' : ((15,25), (1,6))}, 'fighter' : {'damage' : ((5,15),(1,6)), 'defense' : ((8,15), (1,6)), 'health' : ((25,35), (1,8))}, 'paladin' : {'damage' : ((1,10), (1,4)), 'defense' : ((10,20), (1,8)), 'health' : ((25,40), (1,10))}}
-        self.abilities = {'1' : Abilities("Big Damage", "Hit someone as hard as you can.", (-dmg,-dmg*2), 5, 2,0),'2' : Abilities("Heal", "Drink a potion IDK!", (dmg,dmg*2), 5, 2,0),'3' : Abilities("Lucky Shot", "deal no dmg, or all the dmg... your choice!!!", (dmg,dmg*2), 10, 2,0),}
+        self.abilities = {'1' : Abilities("Big Damage", "Hit someone as hard as you can.", (-self.dmg,-self.dmg*2), 5, 2,0),'2' : Abilities("Heal", "Drink a potion IDK!", (self.dmg,self.dmg*2), 5, 2,0),'3' : Abilities("Lucky Shot", "deal no dmg, or all the dmg... your choice!!!", (self.dmg,self.dmg*2), 10, 2,0),}
 #mainStat(stat, self):
     #return random.randint(self.modifier[self.spec][stat][0])
     def mainStat(self,stat):
@@ -241,7 +247,7 @@ class CharacterClass:
         return random.randint(self.modifiers[self.spec][stat][1][0], self.modifiers[self.spec][stat][1][1])
 #there will also be a combat function inside this class
     def set_abilities(self):
-        self.abilities = {'1' : Abilities("Big Damage", "Hit someone as hard as you can.", (-dmg,-dmg*2), 5, 2,0),'2' : Abilities("Heal", "Drink a potion IDK!", (dmg,dmg*2), 5, 2,0),'3' : Abilities("Lucky Shot", "deal no dmg, or all the dmg... your choice!!!", (dmg,dmg*2), 10, 2,0),}
+        self.abilities = {'1' : Abilities("Big Damage", "Hit someone as hard as you can.", (-self.dmg*2,-self.dmg), 5, 2,0),'2' : Abilities("Heal", "Drink a potion IDK!", (self.dmg,self.dmg*2), 5, 2,0),'3' : Abilities("Lucky Shot", "deal no dmg, or all the dmg... your choice!!!", (self.dmg,self.dmg*2), 10, 2,0),}
 
 #combat(self):
     def combat(self):

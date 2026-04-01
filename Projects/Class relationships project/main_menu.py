@@ -52,5 +52,3 @@ def run_game():
                     maximum = 20-run.characters[character].level
                     amount_leveled = intInput(max = maximum, min= 1, prompt = "\nHow much are you leveling up your character?\n\tEnter Here: ")
                     run.characters[character].levelUp(amount_leveled)
-
-run_game()
